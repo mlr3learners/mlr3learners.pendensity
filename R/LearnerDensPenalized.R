@@ -57,21 +57,27 @@ LearnerDensPenalized = R6Class("LearnerDensPenalized",
       pars = self$param_set$get_values(tag = "train")
 
       # suppress the automated output of pendensity
-      capture.output(fit <- mlr3misc::invoke(pendensity::pendensity, form = task$truth() ~ 1,
-                                             .args = pars))
+      capture.output(
+        fit = mlr3misc::invoke(pendensity::pendensity,
+          form = task$truth() ~ 1,
+          .args = pars)
+      )
 
-      pdf <- function(x1) {} # nolint
-      body(pdf) <- substitute({
+      pdf = function(x1) {} # nolint
+      body(pdf) = substitute({
         mlr3misc::invoke(pendensity::dpendensity, x = fit, val = x1)
       })
 
-      cdf <- function(x1) {} # nolint
-      body(cdf) <- substitute({
+      cdf = function(x1) {} # nolint
+      body(cdf) = substitute({
         mlr3misc::invoke(pendensity::ppendensity, x = fit, val = x1)
       })
 
-
-      base = if (is.null(pars$base)) "gaussian" else pars$base
+      base = if (is.null(pars$base)) {
+        "gaussian"
+      } else {
+        pars$base
+      }
       distr6::Distribution$new(
         name = paste("Penalized Density", base),
         short_name = paste0("PenDens_", base),
