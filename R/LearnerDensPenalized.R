@@ -86,7 +86,9 @@ LearnerDensPenalized = R6Class("LearnerDensPenalized",
 
     .predict = function(task) {
       newdata = task$truth()
-      mlr3proba::PredictionDens$new(task = task, pdf = self$model$pdf(newdata), cdf = self$model$pdf(newdata))
+      mlr3proba::PredictionDens$new(task = task,
+                                    pdf = self$model$pdf(newdata),
+                                    cdf = self$model$pdf(newdata))
     }
   )
 )
