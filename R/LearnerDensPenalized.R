@@ -59,18 +59,18 @@ LearnerDensPenalized = R6Class("LearnerDensPenalized",
                              form = task$truth() ~ 1,
                              .args = pars)
 
-      pdf = function(x1) {} # nolint
+      pdf = function(x) {} # nolint
       body(pdf) = substitute({
         mlr3misc::invoke(pendensity::dpendensity,
           x = fit,
-          val = x1)
+          val = x)
       })
 
-      cdf = function(x1) {} # nolint
+      cdf = function(x) {} # nolint
       body(cdf) = substitute({
         mlr3misc::invoke(pendensity::ppendensity,
           x = fit,
-          val = x1)
+          val = x)
       })
 
       base = if (is.null(pars$base)) {
@@ -81,7 +81,7 @@ LearnerDensPenalized = R6Class("LearnerDensPenalized",
       distr6::Distribution$new(
         name = paste("Penalized Density", base),
         short_name = paste0("PenDens_", base),
-        pdf = pdf, cdf = cdf)
+        pdf = pdf, cdf = cdf, type = set6::Reals$new())
     },
 
     .predict = function(task) {
